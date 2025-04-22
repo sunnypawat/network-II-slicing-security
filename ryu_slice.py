@@ -289,17 +289,17 @@ class TrafficSlicing(app_manager.RyuApp):
     def normal(self):
         print("Normal scenario has been selected")
         self.slice_to_port = {
-            1: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
-            5: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
-            2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},
-            4: {1: 2, 2: 1},
-            6: {1: 2, 2: 1},
-            7: {1: 2, 2: 1},
-            8: {1: 2, 2: 1},
-            9: {1: 2, 2: 1},
-            10: {1: 2, 2: 1},
-            11: {1: 2, 2: 1},
+            1: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
+            5: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
+            2: {1: [2], 2: [1]},
+            3: {1: [2], 2: [1]},
+            4: {1: [2], 2: [1]},
+            6: {1: [2], 2: [1]},
+            7: {1: [2], 2: [1]},
+            8: {1: [2], 2: [1]},
+            9: {1: [2], 2: [1]},
+            10: {1: [2], 2: [1]},
+            11: {1: [2], 2: [1]},
         }
         self.print_slice_to_port()
 
@@ -307,16 +307,16 @@ class TrafficSlicing(app_manager.RyuApp):
     def emergency(self):
         print("DDos scenario has been selected")
         self.slice_to_port = {
-            1: {1:4, 2:4, 3:6, 5:1, 5:2, 6:3},
-            5: {1:4, 1:5, 1:6, 4:2, 5:2, 6:2},
-            2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},           
-            6: {1: 2, 2: 1},
-            7: {1: 2, 2: 1},
-            8: {1: 2, 2: 1},
-            9: {1: 2, 2: 1},
-            10: {1: 2, 2: 1},
-            11: {1: 2, 2: 1}
+            1: {1: [4], 2: [4], 3: [6], 5: [1, 2], 6: [3]},
+            5: {1: [4, 5, 6], 4: [2], 5: [2], 6: [2]},
+            2: {1: [2], 2: [1]},
+            3: {1: [2], 2: [1]},           
+            6: {1: [2], 2: [1]},
+            7: {1: [2], 2: [1]},
+            8: {1: [2], 2: [1]},
+            9: {1: [2], 2: [1]},
+            10: {1: [2], 2: [1]},
+            11: {1: [2], 2: [1]}
         }
         self.print_slice_to_port()
 
@@ -324,17 +324,17 @@ class TrafficSlicing(app_manager.RyuApp):
     def administration_normal(self):
         print("Security-enhanced scenario has been selected")
         self.slice_to_port = {
-            1: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
-            5: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
-            2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},
-            4: {1: 2, 2: 1},
-            6: {1: 2, 2: 1},
-            7: {1: 2, 2: 1},
-            8: {1: 2, 2: 1},
-            9: {1: 2, 2: 1},
-            10: {1: 2, 2: 1},
-            11: {1: 2, 2: 1},
+            1: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
+            5: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
+            2: {1: [2], 2: [1]},
+            3: {1: [2], 2: [1]},
+            4: {1: [2], 2: [1]},
+            6: {1: [2], 2: [1]},
+            7: {1: [2], 2: [1]},
+            8: {1: [2], 2: [1]},
+            9: {1: [2], 2: [1]},
+            10: {1: [2], 2: [1]},
+            11: {1: [2], 2: [1]},
         }
         self.print_slice_to_port()
     
@@ -426,13 +426,20 @@ class TrafficSlicing(app_manager.RyuApp):
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocol(ethernet.ethernet)
 
-        if(self.boolDeleteFlows == False and eth.ethertype != ether_types.ETH_TYPE_LLDP):
+        if self.boolDeleteFlows == False and eth.ethertype != ether_types.ETH_TYPE_LLDP:
+            # Get the list of out ports for the given in port
+            out_ports = self.slice_to_port[dpid].get(in_port, [])
             
-            out_port = self.slice_to_port[dpid][in_port]
-            actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
-            match = datapath.ofproto_parser.OFPMatch(in_port=in_port)            
+            # Create actions for all out ports
+            actions = [datapath.ofproto_parser.OFPActionOutput(out_port) for out_port in out_ports]
 
+            # Create a match for the in port
+            match = datapath.ofproto_parser.OFPMatch(in_port=in_port)
+
+            # Add the flow for all out ports
             self.add_flow(datapath, 1, match, actions, self.idleTimeout, self.hardTimeout)
+
+            # Send the packet out to all out ports
             self._send_package(msg, datapath, in_port, actions)
         
         
