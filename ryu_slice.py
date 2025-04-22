@@ -24,6 +24,7 @@ class TrafficSlicing(app_manager.RyuApp):
         super(TrafficSlicing, self).__init__(*args, **kwargs)
         print("TrafficSlicing __init__")
         self.switches = []
+        self.packet_count = {}
         self.datapath_list = []
         self.interval = 360
         self.idleTimeout = 30
@@ -81,11 +82,11 @@ class TrafficSlicing(app_manager.RyuApp):
             #photo = ImageTk.PhotoImage(ico)
             #root.wm_iconphoto(False, photo)
             
-            screen_width = root.winfo_screenwidth()  # Width of the screen
-            screen_height = root.winfo_screenheight() # Height of the screen
+            screen_width = root.winfo_screenwidth()
+            screen_height = root.winfo_screenheight()
             
             width = screen_width * (3/4) # Width 
-            height = screen_height # Height
+            height = screen_height * (3/4) # Height
             
             root.geometry('%dx%d+%d+%d' % (width, height, (screen_width-width)/2, 0))
 
@@ -121,8 +122,8 @@ class TrafficSlicing(app_manager.RyuApp):
 
             # Load the images
             self.images = [
-                PhotoImage(file="images/scenario1/Normal_Scenario.png").subsample(self.scale_factor),
-                PhotoImage(file="images/scenario2/Emergency_Scenario.png").subsample(self.scale_factor),
+                PhotoImage(file="images/scenario1/normal.png").subsample(self.scale_factor),
+                PhotoImage(file="images/scenario2/ddos.png").subsample(self.scale_factor),
                 PhotoImage(file="images/scenario3/Administration_Scenario.png").subsample(self.scale_factor),
             ] 
 
@@ -131,11 +132,7 @@ class TrafficSlicing(app_manager.RyuApp):
 
             # Create a button (RIGHT) to navigate between the images
             forward_button = tk.Button(images_frame, text=">", font=("Helvetica", 18), bg=self.background_color, command=lambda: [self.next_scenario(image_label), update_interface()])
-            forward_button.pack(side=tk.LEFT, padx=20)
-
-            # Create a label to display the current scenario
-            #current_scenario_label = tk.Label(root, text="Current Scenario: Normal", font=("Helvetica", 12), bg=self.background_color)
-            #current_scenario_label.pack(pady=5)
+            forward_button.pack(side=tk.LEFT, padx=20) 
 
             # Use a label and entry for the interval
             interval_frame = tk.Frame(root, bg=self.background_color)
@@ -265,9 +262,10 @@ class TrafficSlicing(app_manager.RyuApp):
         print("Normal scenario has been selected")
         self.slice_to_port = {
             1: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
-            4: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
+            5: {1:4, 4:1, 2:5, 5:2, 3:6},
             2: {1: 2, 2: 1},
             3: {1: 2, 2: 1},
+            4: {1: 2, 2: 1},
             5: {1: 2, 2: 1},
             6: {1: 2, 2: 1},
             7: {1: 2, 2: 1},
@@ -282,10 +280,11 @@ class TrafficSlicing(app_manager.RyuApp):
     def emergency(self):
         print("DDos scenario has been selected")
         self.slice_to_port = {
-            1: {1:5, 5:1, 2:4, 4:2, 3:6, 6:3},
-            4: {1:5, 5:1, 2:4, 4:2, 3:6, 6:3},
+            1: {1:6, 6:1, 2:4, 4:2, 3:6, 6:3},
+            5: {1:4, 4:1, 2:5, 5:2, 3:5},
             2: {1: 2, 2: 1},
             3: {1: 2, 2: 1},
+            4: {1: 0, 2: 1},
             5: {1: 2, 2: 1},
             6: {1: 2, 2: 1},
             7: {1: 2, 2: 1},
@@ -401,7 +400,7 @@ class TrafficSlicing(app_manager.RyuApp):
         dpid = datapath.id
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocol(ethernet.ethernet)
-        
+
         if(self.boolDeleteFlows == False and eth.ethertype != ether_types.ETH_TYPE_LLDP):
             
             out_port = self.slice_to_port[dpid][in_port]
