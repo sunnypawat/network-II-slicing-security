@@ -26,9 +26,14 @@ class TrafficSlicing(app_manager.RyuApp):
         self.switches = []
         self.packet_count = {}
         self.datapath_list = []
+
+         # List of interval options
+        interval_options = [60, 120, 180, 240, 300, 360]
+        self.selected_interval_index = 0  # Default to the first option
         self.interval = 360
         self.idleTimeout = 30
         self.hardTimeout = 60
+
         self.boolWindowsOpen = False
         self.boolDeleteFlows = False   
         self.boolFirstTimeOpen = True     
@@ -39,9 +44,9 @@ class TrafficSlicing(app_manager.RyuApp):
         self.background_color = "#F7F7F7"
 
         # this function is called the start button is clicked
-        def start(root, interval_entry):
-            self.interval = int(interval_entry.get())
-            # print("User chosen Interval: ", self.interval) 
+        def start(root, interval_options):
+            self.interval = int(interval_options[self.selected_interval_index])
+            print("User chosen Interval: ", self.interval) 
             root.destroy()
             self.boolWindowsOpen = False
             print("windows_Opwn should be TRUE: ", self.boolWindowsOpen)
@@ -141,9 +146,6 @@ class TrafficSlicing(app_manager.RyuApp):
             interval_label = tk.Label(interval_frame, text="Interval (seconds):", font=("Verdana", 12), bg=self.background_color)
             interval_label.pack(side=tk.LEFT, padx=5)
 
-            # List of interval options
-            interval_options = [60, 120, 180, 240, 300, 360]
-            self.selected_interval_index = 0  # Default to the first option
 
             # Function to update the selected interval
             def update_interval_label():
