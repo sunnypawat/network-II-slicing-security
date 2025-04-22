@@ -191,7 +191,7 @@ class TrafficSlicing(app_manager.RyuApp):
                 self.boolFirstTimeOpen = False
 
             # Use a button to start
-            start_button = tk.Button(root, text="Start", font=("Verdana", 14), command=lambda: start(root, interval_entry))
+            start_button = tk.Button(root, text="Start", font=("Verdana", 14), command=lambda: start(root, interval_options))
             start_button.pack(pady=5)
 
             # Use a label to display the selected scenario
