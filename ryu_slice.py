@@ -170,16 +170,7 @@ class TrafficSlicing(app_manager.RyuApp):
             next_button = tk.Button(interval_frame, text=">", font=("Verdana", 12), command=next_interval)
             next_button.pack(side=tk.LEFT, padx=5)
 
-            # Initialize the interval label with the default value
             update_interval_label()
-            #interval_frame = tk.Frame(root, bg=self.background_color)
-            #interval_frame.pack(pady=5)
-
-            #interval_label = tk.Label(interval_frame, text="Interval (seconds) for next GUI WINDOW:", font=("Verdana", 12), bg=self.background_color)
-            #interval_label.pack(side=tk.LEFT)
-            #interval_entry = tk.Entry(interval_frame, font=("Verdana", 12), width=10)
-            #interval_entry.insert(0, "60")
-            #interval_entry.pack(side=tk.LEFT, padx=5)
 
             # Use a button to delete flows
             delete_button = tk.Button(root, text="Delete Flows", font=("Verdana", 14), command=lambda: deleteFlows())
@@ -316,11 +307,10 @@ class TrafficSlicing(app_manager.RyuApp):
     def emergency(self):
         print("DDos scenario has been selected")
         self.slice_to_port = {
-            1: {1:6, 6:1, 2:4, 4:2, 3:6, 6:3},
-            5: {1:4, 4:1, 2:5, 5:2, 3:5, 6:3},
+            1: {1:4, 2:4, 3:6, 5:1, 5:2, 6:3},
+            5: {1:4, 1:5, 1:6, 4:2, 5:2, 6:2},
             2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},
-            4: {1: 0, 2: 1},
+            3: {1: 2, 2: 1},           
             6: {1: 2, 2: 1},
             7: {1: 2, 2: 1},
             8: {1: 2, 2: 1},
@@ -334,16 +324,17 @@ class TrafficSlicing(app_manager.RyuApp):
     def administration_normal(self):
         print("Security-enhanced scenario has been selected")
         self.slice_to_port = {
-            1: {1:5, 5:1, 2:6, 6:2, 3:4, 4:3},
-            4: {2:4, 4:2, 3:5, 5:3, 1:6, 6:1},
+            1: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
+            5: {1:4, 4:1, 2:5, 5:2, 3:6, 6:3},
             2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},            
+            3: {1: 2, 2: 1},
+            4: {1: 2, 2: 1},
             6: {1: 2, 2: 1},
             7: {1: 2, 2: 1},
             8: {1: 2, 2: 1},
             9: {1: 2, 2: 1},
             10: {1: 2, 2: 1},
-            11: {1: 2, 2: 1}
+            11: {1: 2, 2: 1},
         }
         self.print_slice_to_port()
     
