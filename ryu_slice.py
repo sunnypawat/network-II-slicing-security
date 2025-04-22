@@ -40,16 +40,15 @@ class TrafficSlicing(app_manager.RyuApp):
 
         # this function is called the start button is clicked
         def start(root, interval_entry):
-            # close the window so the application can start
             self.interval = int(interval_entry.get())
-            print("User chosen Interval: ", self.interval) 
+            # print("User chosen Interval: ", self.interval) 
             root.destroy()
             self.boolWindowsOpen = False
             print("windows_Opwn should be TRUE: ", self.boolWindowsOpen)
             time.sleep(2)
             if (self.boolDeleteFlows == True):
                 for dp in self.datapath_list:
-                    print("deleting all flows for datapath: ", dp.id)
+                    print("Deleting flows for datapath: ", dp.id)
                     self.remove_all_flows_from_sw(dp)
                 time.sleep(1)            
                 self.boolDeleteFlows = False
