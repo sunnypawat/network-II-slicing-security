@@ -371,7 +371,7 @@ class TrafficSlicing(app_manager.RyuApp):
          # construct flow_mod message and send it.
         inst = [parser.OFPInstructionActions(ofproto.OFPIT_APPLY_ACTIONS, actions)]
         mod = parser.OFPFlowMod(
-            datapath=datapath, idle_timeout=idleTimeout, hard_timeout=hardTimeout, priority=priority, match=match, instructions=inst
+            datapath=datapath, idle_timeout=idleTimeout, hard_timeout=hardTimeout, priority=priority, match=match, instructions=inst, command=ofproto.OFPFC_ADD
         )
         datapath.send_msg(mod)
         print("Adding flow to switch: ", datapath.id)
