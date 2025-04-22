@@ -90,7 +90,7 @@ class TrafficSlicing(app_manager.RyuApp):
             root.geometry('%dx%d+%d+%d' % (width, height, (screen_width-width)/2, 0))
 
             # Use a label as a header
-            header = tk.Label(root, text="Select Scenario", font=("Arial", 22), bg=self.background_color)
+            header = tk.Label(root, text="Select Scenario", font=("Verdana", 22), bg=self.background_color)
             header.pack(pady=15)
 
             # Create a frame to contain the buttons
@@ -98,13 +98,13 @@ class TrafficSlicing(app_manager.RyuApp):
             frame.pack(pady=10)
 
             # Create the buttons with a different font and padding
-            normal_button = tk.Button(frame, text="Normal",  font=("Arial", 16), padx=20, pady=10, command=lambda: [self.select_case(1), update_interface()])
+            normal_button = tk.Button(frame, text="Normal",  font=("Verdana", 16), padx=20, pady=10, command=lambda: [self.select_case(1), update_interface()])
             normal_button.pack(side=tk.LEFT)
 
-            ddos_button = tk.Button(frame, text="DDos Attack", font=("Arial", 16), padx=20, pady=10, command=lambda: [self.select_case(2), update_interface()])
+            ddos_button = tk.Button(frame, text="DDos Attack", font=("Verdana", 16), padx=20, pady=10, command=lambda: [self.select_case(2), update_interface()])
             ddos_button.pack(side=tk.LEFT)
 
-            security_enhanced_button = tk.Button(frame, text="Security-enhanced", font=("Arial", 16), padx=20, pady=10, command=lambda: [self.select_case(3), update_interface()])
+            security_enhanced_button = tk.Button(frame, text="Security-enhanced", font=("Verdana", 16), padx=20, pady=10, command=lambda: [self.select_case(3), update_interface()])
             security_enhanced_button.pack(side=tk.LEFT)
 
             # Create a frame to contain the images
@@ -112,7 +112,7 @@ class TrafficSlicing(app_manager.RyuApp):
             images_frame.pack(pady=15)
 
             # Create a button (LEFT) to navigate between the images
-            back_button = tk.Button(images_frame, text="<", font=("Arial", 18), bg=self.background_color, command=lambda: [self.previous_scenario(image_label), update_interface()])
+            back_button = tk.Button(images_frame, text="<", font=("Verdana", 18), bg=self.background_color, command=lambda: [self.previous_scenario(image_label), update_interface()])
             back_button.pack(side=tk.LEFT)
             
             # Create a label to display the images
@@ -130,21 +130,57 @@ class TrafficSlicing(app_manager.RyuApp):
             self.show_image(image_label, 0)
             
             # Create a button (RIGHT) to navigate between the images
-            forward_button = tk.Button(images_frame, text=">", font=("Arial", 18), bg=self.background_color, command=lambda: [self.next_scenario(image_label), update_interface()])
+            forward_button = tk.Button(images_frame, text=">", font=("Verdana", 18), bg=self.background_color, command=lambda: [self.next_scenario(image_label), update_interface()])
             forward_button.pack(side=tk.LEFT, padx=20) 
 
             # Use a label and entry for the interval
+            # Create a frame for interval selection
             interval_frame = tk.Frame(root, bg=self.background_color)
             interval_frame.pack(pady=5)
 
-            interval_label = tk.Label(interval_frame, text="Interval (seconds) for next GUI WINDOW:", font=("Arial", 12), bg=self.background_color)
-            interval_label.pack(side=tk.LEFT)
-            interval_entry = tk.Entry(interval_frame, font=("Arial", 12), width=10)
-            interval_entry.insert(0, "60")
-            interval_entry.pack(side=tk.LEFT, padx=5)
+            interval_label = tk.Label(interval_frame, text="Interval (seconds):", font=("Verdana", 12), bg=self.background_color)
+            interval_label.pack(side=tk.LEFT, padx=5)
+
+            # List of interval options
+            interval_options = [60, 120, 180, 240, 300, 360]
+            self.selected_interval_index = 0  # Default to the first option
+
+            # Function to update the selected interval
+            def update_interval_label():
+                interval_label.config(text=f"Interval (seconds): {interval_options[self.selected_interval_index]}")
+
+            # Function to move to the previous interval
+            def previous_interval():
+                if self.selected_interval_index > 0:
+                    self.selected_interval_index -= 1
+                    update_interval_label()
+
+            # Function to move to the next interval
+            def next_interval():
+                if self.selected_interval_index < len(interval_options) - 1:
+                    self.selected_interval_index += 1
+                    update_interval_label()
+
+            # Create buttons to navigate interval options
+            prev_button = tk.Button(interval_frame, text="<", font=("Verdana", 12), command=previous_interval)
+            prev_button.pack(side=tk.LEFT, padx=5)
+
+            next_button = tk.Button(interval_frame, text=">", font=("Verdana", 12), command=next_interval)
+            next_button.pack(side=tk.LEFT, padx=5)
+
+            # Initialize the interval label with the default value
+            update_interval_label()
+            #interval_frame = tk.Frame(root, bg=self.background_color)
+            #interval_frame.pack(pady=5)
+
+            #interval_label = tk.Label(interval_frame, text="Interval (seconds) for next GUI WINDOW:", font=("Verdana", 12), bg=self.background_color)
+            #interval_label.pack(side=tk.LEFT)
+            #interval_entry = tk.Entry(interval_frame, font=("Verdana", 12), width=10)
+            #interval_entry.insert(0, "60")
+            #interval_entry.pack(side=tk.LEFT, padx=5)
 
             # Use a button to delete flows
-            delete_button = tk.Button(root, text="Delete Flows", font=("Arial", 14), command=lambda: deleteFlows())
+            delete_button = tk.Button(root, text="Delete Flows", font=("Verdana", 14), command=lambda: deleteFlows())
             delete_button.pack(pady=5)
             
             #Disable the delete button only for the first time
@@ -153,11 +189,11 @@ class TrafficSlicing(app_manager.RyuApp):
                 self.boolFirstTimeOpen = False
 
             # Use a button to start
-            start_button = tk.Button(root, text="Start", font=("Arial", 14), command=lambda: start(root, interval_entry))
+            start_button = tk.Button(root, text="Start", font=("Verdana", 14), command=lambda: start(root, interval_entry))
             start_button.pack(pady=5)
 
             # Use a label to display the selected scenario
-            selected_scenario_label = tk.Label(root, text="Selected Scenario: ", font=("Arial", 10), bg=self.background_color)
+            selected_scenario_label = tk.Label(root, text="Selected Scenario: ", font=("Verdana", 10), bg=self.background_color)
             selected_scenario_label.pack(pady=5)
 
             # Function to update the selected scenario label
