@@ -445,7 +445,7 @@ class TrafficSlicing(app_manager.RyuApp):
         self.detect_and_mitigate_ddos(dpid, in_port)
 
         # Enforce RBAC policies
-        role = "user"  # Example: Assume the role is "user" (this can be dynamic)
+        role = "admin"  # Example: Assume the role is "user" (this can be dynamic)
         slice_id = self.current_scenario  # Assume the current scenario represents the slice ID
         if not self.enforce_rbac(role, slice_id):
             return  # Drop the packet if access is denied
