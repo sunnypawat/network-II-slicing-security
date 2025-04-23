@@ -427,19 +427,10 @@ class TrafficSlicing(app_manager.RyuApp):
         eth = pkt.get_protocol(ethernet.ethernet)
 
         if self.boolDeleteFlows == False and eth.ethertype != ether_types.ETH_TYPE_LLDP:
-            # Get the list of out ports for the given in port
             out_ports = self.slice_to_port[dpid].get(in_port, [])
-            
-            # Create actions for all out ports
             actions = [datapath.ofproto_parser.OFPActionOutput(out_port) for out_port in out_ports]
-
-            # Create a match for the in port
             match = datapath.ofproto_parser.OFPMatch(in_port=in_port)
-
-            # Add the flow for all out ports
             self.add_flow(datapath, 1, match, actions, self.idleTimeout, self.hardTimeout)
-
-            # Send the packet out to all out ports
             self._send_package(msg, datapath, in_port, actions)
         
         
