@@ -26,6 +26,18 @@ class TrafficSlicing(app_manager.RyuApp):
         self.switches = []
         self.packet_count = {}
         self.datapath_list = []
+        self.slice_roles = {  # Define roles for slices
+            1: "admin",
+            2: "user",
+            3: "guest"
+        }
+        self.role_access_policies = {  # Define access control policies
+            "admin": [1, 2, 3],  # Admin can access all slices
+            "user": [2, 3],      # User can access slices 2 and 3
+            "guest": [3]         # Guest can only access slice 3
+        }
+        self.traffic_threshold = 1000  # Threshold for detecting DDoS attacks
+        self.packet_count = {}  # Track packet counts per slice
 
          # List of interval options
         interval_options = [60, 120, 180, 240, 300, 360]
@@ -426,14 +438,56 @@ class TrafficSlicing(app_manager.RyuApp):
         pkt = packet.Packet(msg.data)
         eth = pkt.get_protocol(ethernet.ethernet)
 
-        if self.boolDeleteFlows == False and eth.ethertype != ether_types.ETH_TYPE_LLDP:
-            out_ports = self.slice_to_port[dpid].get(in_port, [])
-            actions = [datapath.ofproto_parser.OFPActionOutput(out_port) for out_port in out_ports]
-            match = datapath.ofproto_parser.OFPMatch(in_port=in_port)
-            self.add_flow(datapath, 1, match, actions, self.idleTimeout, self.hardTimeout)
-            self._send_package(msg, datapath, in_port, actions)
+        if eth.ethertype == ether_types.ETH_TYPE_LLDP:
+            return  # Ignore LLDP packets
+
+        # Detect and mitigate DDoS attacks
+        self.detect_and_mitigate_ddos(dpid, in_port)
+
+        # Enforce RBAC policies
+        role = "user"  # Example: Assume the role is "user" (this can be dynamic)
+        slice_id = self.current_scenario  # Assume the current scenario represents the slice ID
+        if not self.enforce_rbac(role, slice_id):
+            return  # Drop the packet if access is denied
+
+        # Forward the packet if no threats are detected and access is allowed
+        out_ports = self.slice_to_port[dpid].get(in_port, [])
+        actions = [datapath.ofproto_parser.OFPActionOutput(out_port) for out_port in out_ports]
+        match = datapath.ofproto_parser.OFPMatch(in_port=in_port)
+        self.add_flow(datapath, 1, match, actions, self.idleTimeout, self.hardTimeout)
+        self._send_package(msg, datapath, in_port, actions)
         
-        
+    # Function to enforce RBAC policies
+    def enforce_rbac(self, role, slice_id):
+        allowed_slices = self.role_access_policies.get(role, [])
+        if slice_id not in allowed_slices:
+            print(f"Access denied: Role '{role}' cannot access slice {slice_id}")
+            return False
+        return True
+
+    # Function to detect and mitigate DDoS attacks
+    def detect_and_mitigate_ddos(self, dpid, in_port):
+        self.packet_count.setdefault(dpid, {}).setdefault(in_port, 0)
+        self.packet_count[dpid][in_port] += 1
+
+        if self.packet_count[dpid][in_port] > self.traffic_threshold:
+            print(f"DDoS detected on switch {dpid}, port {in_port}. Mitigating...")
+            self.block_port(dpid, in_port)
+            self.packet_count[dpid][in_port] = 0  # Reset packet count after mitigation
+
+    # Function to block a specific port
+    def block_port(self, dpid, in_port):
+        datapath = next((dp for dp in self.datapath_list if dp.id == dpid), None)
+        if not datapath:
+            print(f"Datapath {dpid} not found!")
+            return
+
+        parser = datapath.ofproto_parser
+        match = parser.OFPMatch(in_port=in_port)
+        actions = []  # No actions, effectively blocking the port
+        self.add_flow(datapath, 10, match, actions, 0, 0)
+        print(f"Blocked port {in_port} on switch {dpid}")
+
     #this handler is for the switch enter event   
     @set_ev_cls(event.EventSwitchEnter)
     def switch_enter_handler(self, ev):
