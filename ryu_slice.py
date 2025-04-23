@@ -469,6 +469,7 @@ class TrafficSlicing(app_manager.RyuApp):
     def detect_and_mitigate_ddos(self, dpid, in_port):
         self.packet_count.setdefault(dpid, {}).setdefault(in_port, 0)
         self.packet_count[dpid][in_port] += 1
+        print(f"Packet count for switch {dpid}, port {in_port}: {self.packet_count[dpid][in_port]}")
 
         if self.packet_count[dpid][in_port] > self.traffic_threshold:
             print(f"DDoS detected on switch {dpid}, port {in_port}. Mitigating...")
