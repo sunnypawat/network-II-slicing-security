@@ -7,7 +7,6 @@ This project demonstrates how network slicing can be used within the ComNetsEmu 
 Each network slice represents a logically isolated network segment tailored to particular applications, users, or services. This flexible approach makes it possible to simulate and test real-world security scenarios in which network policies must adapt to changing conditions, such as isolating compromised devices, prioritizing emergency traffic, or dynamically scaling resources for critical infrastructure.
 
 By integrating with ComNetsEmu, this project provides an emulated platform to experiment with slice management, policy enforcement, and resource allocation in a safe and controlled environment—ideal for research, education, and prototyping secure network architectures.
-
 ## Getting Started
 ### Prerequisites
 
