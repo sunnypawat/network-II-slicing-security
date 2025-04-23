@@ -1,5 +1,4 @@
 # SDN slices for Security Scenarios in ComNetsEmu
-Created by Pawat Songkhopanit and Mariia Afonina, University of Trento
 This is a part of the Networking course at the University of Trento
 
 This project demonstrates how network slicing can be used within the ComNetsEmu environment to manage network resources dynamically through a Graphical User Interface (GUI). Leveraging Software-Defined Networking (SDN) principles allows network slices to be activated and deactivated based on specific security requirements.
@@ -8,12 +7,25 @@ Each network slice represents a logically isolated network segment tailored to p
 
 By integrating with ComNetsEmu, this project provides an emulated platform to experiment with slice management, policy enforcement, and resource allocation in a safe and controlled environment—ideal for research, education, and prototyping secure network architectures.
 ## Getting Started
+In order to get started, follow these steps!
 ### Prerequisites
+Our software is developed with ComNetsEmu.
+For more detailed information about ComNetsEmu, please visit here.
+```sh
+$ cd ~
+$ git clone https://git.comnets.net/public-repo/comnetsemu.git
+$ cd ./comnetsemu
+$ vagrant up comnetsemu
+# Take a coffee and wait about 15 minutes
+
+# SSH into the VM when it's up and ready (The ComNetsEmu banner is printed on the screen)
+$ vagrant ssh comnetsemu
+```
 
 ### Installation
 
 ## Running
-1. Enable ryu controller to isolate the network topology into slices and creates the GUI:
+1. Enable ryu controller to isolate the network topology into slices and create the GUI:
 ```sh
 $ ryu-manager ryu_slice.py --observe-links
 ```
@@ -21,16 +33,29 @@ $ ryu-manager ryu_slice.py --observe-links
 ```sh
 $ sudo python3 topology.py
 ```
-5. See real-time switches log file
+5. See real time switches log file
 ```sh
 $ sudo tail -f /var/log/openvswitch/ovs-vswitchd.log
 ```
 
-Please execute the following command to clear everething before running new example:
+Please execute the following command to clear everything before running a new example:
 ```sh
 $ sudo mn -c
 ```
 
-## Usage
+## Testing
+To test that everything is working properly, execute these following commands:
+1. Ping to check connectivity (in Mininet)
+```sh
+mininet>pingall
+```
+3. Bandwidth Check (in Mininet)
+```sh
+mininet>iperf h1 h4
+```
+
 ## Project layout
-## About us
+## About us and Contact
+- Pawat Songkhopanit
+- Mariia Afonina
+
