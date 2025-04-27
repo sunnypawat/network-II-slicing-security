@@ -10,6 +10,11 @@ from ryu.lib.packet import ether_types
 from ryu.topology import event
 from ryu import cfg
 
+CONF = cfg.CONF
+myoptions = [
+    cfg.IntOpt('scenario', default=1, help='Scenario to run (1: Normal, 2: Emergency, 3: Administration)')
+]
+CONF.register_cli_opts([myoptions])
 
 class TrafficSlicingCLI(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
