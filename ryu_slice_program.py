@@ -27,9 +27,11 @@ class TrafficSlicingCLI(app_manager.RyuApp):
 
         # Parse the scenario from command-line arguments
         CONF = cfg.CONF
-        CONF.register_cli_opts([
-            cfg.IntOpt('scenario', default=1, help='Scenario to run (1: Normal, 2: Emergency, 3: Administration)')
-        ])
+        myoptions = [
+             cfg.IntOpt('scenario', default=1, help='Scenario to run (1: Normal, 2: Emergency, 3: Administration)')
+        ]
+        CONF.register_cli_opts([myoptions])
+        CONF(args=sys.argv[1:], project='ryu', prog='ryu-manager', version='1.0')
 
         print('Scenario: {}'.format(CONF.scenario))
 
