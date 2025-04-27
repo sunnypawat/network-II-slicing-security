@@ -116,9 +116,6 @@ class TrafficSlicing(app_manager.RyuApp):
             images_frame = tk.Frame(root, bg=self.background_color)
             images_frame.pack(pady=15)
 
-            # Create a button (LEFT) to navigate between the images
-            back_button = tk.Button(images_frame, text="<", font=("Verdana", 18), bg=self.background_color, command=lambda: [self.previous_scenario(image_label), update_interface()])
-            back_button.pack(side=tk.LEFT)
             
             # Create a label to display the images
             image_label = tk.Label(images_frame, bg=self.background_color)
@@ -134,9 +131,6 @@ class TrafficSlicing(app_manager.RyuApp):
             # Show the first image
             self.show_image(image_label, 0)
             
-            # Create a button (RIGHT) to navigate between the images
-            forward_button = tk.Button(images_frame, text=">", font=("Verdana", 18), bg=self.background_color, command=lambda: [self.next_scenario(image_label), update_interface()])
-            forward_button.pack(side=tk.LEFT, padx=20) 
 
             # Use a label and entry for the interval
             # Create a frame for interval selection
