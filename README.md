@@ -29,11 +29,13 @@ $ vagrant ssh comnetsemu
 ```sh
 $ ryu-manager ryu_slice.py --observe-links
 ```
-Option 2: Enable ryu controller to isolate the network topology into slices with .conf file:
+  
+  Option 2: Enable ryu controller to isolate the network topology into slices with .conf file (You must configure the scenario in the slice.conf file):
 ```sh
 $ ryu-manager ryu_slice.py --config-file slice.conf
 ```
-You must configure the scenario in the slice.conf file
+
+
 2. Network creation in Mininet (in a new terminal):
 ```sh
 $ sudo python3 topology.py
