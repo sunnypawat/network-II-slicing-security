@@ -24,10 +24,10 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         self.idleTimeout = 30
         self.hardTimeout = 60
         self.slice_to_port = {}
-        self.current_scenario = 1  # Default to "Normal" scenario
+        self.current_scenario = CONF.get('scenario', 1)  # Default to "Normal" scenario
 
         # Parse the scenario from command-line arguments
-        print('Scenario: {}'.format(CONF.scenario))
+        print('Scenario: {}'.format(self.current_scenario))
 
         # Select the scenario
         self.select_case(self.current_scenario)
