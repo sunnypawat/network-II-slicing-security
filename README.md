@@ -7,7 +7,7 @@ Each network slice represents a logically isolated network segment tailored to p
 
 By integrating with ComNetsEmu, this project provides an emulated platform to experiment with slice management, policy enforcement, and resource allocation in a safe and controlled environment—ideal for research, education, and prototyping secure network architectures.
 ## Getting Started
-In order to get started, follow these steps!
+To get started, follow these steps!
 ### Prerequisites
 Our software is developed with ComNetsEmu.
 For more detailed information about ComNetsEmu, please visit here.
@@ -25,15 +25,20 @@ $ vagrant ssh comnetsemu
 ### Installation
 
 ## Running
-1. Enable ryu controller to isolate the network topology into slices and create the GUI:
+1. Option 1: Enable ryu controller to isolate the network topology into slices and create the GUI: 
 ```sh
 $ ryu-manager ryu_slice.py --observe-links
 ```
-3. Network creation in Mininet (in a new terminal):
+Option 2: Enable ryu controller to isolate the network topology into slices with .conf file:
+```sh
+$ ryu-manager ryu_slice.py --config-file slice.conf
+```
+You must configure the scenario in the slice.conf file
+2. Network creation in Mininet (in a new terminal):
 ```sh
 $ sudo python3 topology.py
 ```
-5. See real time switches log file
+3. See real-time switches log file
 ```sh
 $ sudo tail -f /var/log/openvswitch/ovs-vswitchd.log
 ```
@@ -44,7 +49,7 @@ $ sudo mn -c
 ```
 
 ## Testing
-To test that everything is working properly, execute these following commands:
+To test that everything is working properly, execute the following commands:
 1. Ping to check connectivity (in Mininet)
 ```sh
 mininet>pingall
@@ -55,7 +60,7 @@ mininet>iperf h1 h4
 ```
 
 ## Project layout
-## About us and Contact
+## About Us and Contact
 - Pawat Songkhopanit
 - Mariia Afonina
 
