@@ -198,17 +198,6 @@ class TrafficSlicing(app_manager.RyuApp):
                 # select the correct case to update the self.slice_to_port
                 self.select_case(self.current_scenario)
 
-                # Disable the back button if we're on the first scenario
-                if self.current_scenario == 1:
-                    back_button.config(state=tk.DISABLED)
-                else:
-                    back_button.config(state=tk.NORMAL)
-
-                # Disable the forward button if we're on the last scenario
-                if self.current_scenario == len(self.images):
-                    forward_button.config(state=tk.DISABLED)
-                else:
-                    forward_button.config(state=tk.NORMAL)
                 
                 #Disable the current selectd scenario button
                 buttons = [normal_button, ddos_button, security_enhanced_button]
