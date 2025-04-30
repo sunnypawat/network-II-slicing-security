@@ -1,4 +1,5 @@
 import sys
+import threading
 from ryu.base import app_manager
 from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
@@ -25,12 +26,18 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         self.hardTimeout = 60
         self.slice_to_port = {}
         self.current_scenario = getattr(CONF, 'scenario', 1)  # Default to "Normal" scenario
+        self.timeout = getattr(CONF, 'timeout', 100)  # Default to 100 seconds
 
         # Parse the scenario from command-line arguments
         print('Scenario: {}'.format(self.current_scenario))
 
         # Select the scenario
         self.select_case(self.current_scenario)
+
+        print(f"Application will delete flow and exit after {self.time_til_exit} seconds.")
+        self.start_exit_timer()
+
+        
 
     def normal(self):
         print("Normal scenario has been selected")
@@ -92,6 +99,18 @@ class TrafficSlicingCLI(app_manager.RyuApp):
 
     def print_slice_to_port(self):
         print("slice_to_port: ", self.slice_to_port)
+
+    def start_exit_timer(self):
+        """Start a timer to exit the application after the specified time."""
+        def exit_application():
+            for dp in self.datapath_list:
+                print("Deleting flows for datapath: ", dp.id)
+                self.remove_all_flows_from_sw(dp)
+            print(f"Exiting application after {self.time_til_exit} seconds.")
+            sys.exit(0)
+
+        timer = threading.Timer(self.timeout, exit_application)
+        timer.start()
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
@@ -155,3 +174,22 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         )
         datapath.send_msg(out)
         print("Sending packet to switch: ", datapath.id)
+    
+    def remove_all_flows_from_sw(self, datapath):
+        ofp = datapath.ofproto
+        ofp_parser = datapath.ofproto_parser
+        
+        # Create a match object with no match fields
+        match = ofp_parser.OFPMatch()
+        
+        # Create a flow mod message with command DELETE and match object
+        mod = ofp_parser.OFPFlowMod(
+            datapath=datapath, command=ofp.OFPFC_DELETE_STRICT,
+            out_port=ofp.OFPP_ANY, out_group=ofp.OFPG_ANY,
+            priority=1, match=match
+        )
+        
+        # Send the flow mod message to the switch
+        datapath.send_msg(mod)
+        print("Removing all flows from switch: ", datapath.id)
+        print("MOD", mod)
