@@ -12,6 +12,10 @@ from ryu.topology import event
 from ryu import cfg
 
 CONF = cfg.CONF
+CONF.register_opts([
+    cfg.IntOpt('scenario', default=1),
+    cfg.IntOpt('timeout', default=60)
+])
 
 class TrafficSlicingCLI(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -25,8 +29,8 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         self.idleTimeout = 30
         self.hardTimeout = 60
         self.slice_to_port = {}
-        self.current_scenario = getattr(CONF, 'scenario', 1)  # Default to "Normal" scenario
-        self.timeout = getattr(CONF, 'timeout', 100)  # Default to 100 seconds
+        self.current_scenario = CONF.scenario  # Default to "Normal" scenario
+        self.timeout = CONF.timeout  # Default to 100 seconds
 
         # Parse the scenario from command-line arguments
         print('Scenario: {}'.format(self.current_scenario))
@@ -34,7 +38,7 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         # Select the scenario
         self.select_case(self.current_scenario)
 
-        print(f"Application will delete flow and exit after {self.time_til_exit} seconds.")
+        print(f"Application will delete flow and exit after {self.timeout} seconds.")
         self.start_exit_timer()
 
         
@@ -106,7 +110,7 @@ class TrafficSlicingCLI(app_manager.RyuApp):
             for dp in self.datapath_list:
                 print("Deleting flows for datapath: ", dp.id)
                 self.remove_all_flows_from_sw(dp)
-            print(f"Exiting application after {self.time_til_exit} seconds.")
+            print(f"Exiting application after {self.timeout} seconds.")
             sys.exit(0)
 
         timer = threading.Timer(self.timeout, exit_application)
