@@ -71,11 +71,11 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         }
         self.print_slice_to_port()
 
-    def administration_normal(self):
+    def security_enhanced(self):
         print("Security-enhanced scenario has been selected")
         self.slice_to_port = {
-            1: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
-            5: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
+            1: {1: [6], 2: [6], 5: [1, 2], 3: [4], 6: [1, 2]},
+            5: {1: [4, 5], 4: [2], 5: [2], 3: [6], 6: [3]},
             2: {1: [2], 2: [1]},
             3: {1: [2], 2: [1]},
             4: {1: [2], 2: [1]},
@@ -92,7 +92,7 @@ class TrafficSlicingCLI(app_manager.RyuApp):
         options = {
             1: self.normal,
             2: self.emergency,
-            3: self.administration_normal,
+            3: self.security_enhanced,
         }
         return options.get(case, lambda: print("Invalid option"))()
 
