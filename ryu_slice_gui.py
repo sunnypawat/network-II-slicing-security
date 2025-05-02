@@ -307,7 +307,7 @@ class TrafficSlicing(app_manager.RyuApp):
     def security_enhanced(self):
         print("Security-enhanced scenario has been selected")
         self.slice_to_port = {
-            1: {1: [6], 2: [6], 5: [1, 2], 3: [4], 6: [1, 2]},
+            1: {1: [6], 2: [6], 5: [3], 3: [4], 6: [1, 2]},
             5: {1: [4, 5], 4: [2], 5: [2], 3: [6], 6: [3]},
             2: {1: [2], 2: [1]},
             3: {1: [2], 2: [1]},
