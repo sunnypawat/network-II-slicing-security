@@ -125,7 +125,7 @@ class TrafficSlicing(app_manager.RyuApp):
             self.images = [
                 PhotoImage(file="images/scenario1/normal.png").subsample(self.scale_factor),
                 PhotoImage(file="images/scenario2/ddos.png").subsample(self.scale_factor),
-                PhotoImage(file="images/scenario3/Administration_Scenario.png").subsample(self.scale_factor),
+                PhotoImage(file="images/scenario3/enhanced.png").subsample(self.scale_factor),
             ] 
 
             # Show the first image
@@ -303,12 +303,12 @@ class TrafficSlicing(app_manager.RyuApp):
         }
         self.print_slice_to_port()
 
-    #this function change the dictionary self.slice_to_port according to administration_normal scenario
-    def administration_normal(self):
+    #this function change the dictionary self.slice_to_port according to security_enhance scenario
+    def security_enhanced(self):
         print("Security-enhanced scenario has been selected")
         self.slice_to_port = {
-            1: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
-            5: {1: [4], 4: [1], 2: [5], 5: [2], 3: [6], 6: [3]},
+            1: {1: [6], 2: [6], 5: [3], 3: [4], 6: [1, 2]},
+            5: {1: [4, 5], 4: [2], 5: [2], 3: [6], 6: [3]},
             2: {1: [2], 2: [1]},
             3: {1: [2], 2: [1]},
             4: {1: [2], 2: [1]},
@@ -326,7 +326,7 @@ class TrafficSlicing(app_manager.RyuApp):
         options = {
             1: self.normal,
             2: self.emergency,
-            3: self.administration_normal
+            3: self.security_enhanced
         }
         self.current_scenario = case
         return options.get(case, lambda: print("Invalid option"))()
