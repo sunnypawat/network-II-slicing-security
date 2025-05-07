@@ -1,5 +1,3 @@
-![network_diagram_small](https://github.com/user-attachments/assets/1b05b887-7f56-45f6-bba9-ef2a852eb15b)
-
 # SDN slices for Security Scenarios in ComNetsEmu
 This is a part of the Networking course at the University of Trento
 
