@@ -80,8 +80,7 @@ class TrafficSlicing(app_manager.RyuApp):
             root.eval('tk::PlaceWindow . center')
             root.title("On Demand Network Slicing with Security Demonstration - Selected Scenario: ")
             root.configure(background=self.background_color)
-            
-            root.iconbitmap("images/logos_and_icons/icon.ico")
+
             ico = Image.open('images/logos_and_icons/icon.ico')
             photo = ImageTk.PhotoImage(ico)
             root.wm_iconphoto(False, photo)
