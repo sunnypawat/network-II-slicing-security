@@ -1,3 +1,4 @@
+![A_2D_vector_graphic_displays_a_red_network_diagram](https://github.com/user-attachments/assets/cd6c2313-1215-4684-a347-23d035bcbc54)
 # SDN slices for Security Scenarios in ComNetsEmu
 This is a part of the Networking course at the University of Trento
 
