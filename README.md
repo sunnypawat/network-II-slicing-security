@@ -4,7 +4,8 @@
 <br />
 <div align="center">
   <a href="https://github.com/sunnypawat/network-II-slicing-security/">
-    <img src="images/logos_and_icons/icon.png" alt="Icon" width="300" height="300">
+    <img src="images/logos_and_icons/icon.png" alt="Icon" width="200" height="200">
+    # SDN slices for Security Scenarios in ComNetsEmu
   </a>
 This is a part of the Networking course at the University of Trento
 
