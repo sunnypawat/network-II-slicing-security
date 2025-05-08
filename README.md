@@ -13,10 +13,10 @@
 <p align="center">
   <em>Dynamic and secure network slicing made simple</em>
     <br />
-  <a href="https://docs.google.com/presentation/d/1a5Nu0xaqI02GTYYub3PESSVfszO_r_Mgpqkt9nufSZo/edit?slide=id.g304dfe70e09_0_40#slide=id.g304dfe70e09_0_40"><strong>Explore the Presentation »</strong></a>
+  <a href="https://docs.google.com/presentation/d/1a5Nu0xaqI02GTYYub3PESSVfszO_r_Mgpqkt9nufSZo/edit?slide=id.g304dfe70e09_0_40#slide=id.g304dfe70e09_0_40"><strong>Our Presentation »</strong></a>
   <br />
   <br />
-  <a href="https://youtu.be/uhIPjDqtWho">View Video Demo</a>
+  <a href="https://youtu.be/uhIPjDqtWho">Demo Video</a>
   ·
   <a href="https://github.com/sunnypawat/network-II-slicing-security/">Project GitHub</a>
 </p>
