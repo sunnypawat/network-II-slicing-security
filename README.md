@@ -4,7 +4,7 @@
 <!-- PROJECT LOGO -->
 <p align="center">
   <a href="https://github.com/sunnypawat/network-II-slicing-security/">
-    <img src="images/logos_and_icons/logo.png" alt="Logo" width="400" height="100">
+    <img src="images/logos_and_icons/icon.png" alt="Logo" width="400" height="100">
   </a>
 </p>
 
