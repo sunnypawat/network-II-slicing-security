@@ -13,12 +13,8 @@
 <p align="center">
   <em>Dynamic and secure network slicing made simple</em>
     <br />
-  <a href="https://docs.google.com/presentation/d/1a5Nu0xaqI02GTYYub3PESSVfszO_r_Mgpqkt9nufSZo/edit?slide=id.g304dfe70e09_0_40#slide=id.g304dfe70e09_0_40"><strong>Our Presentation »</strong></a>
-  <br />
-  <br />
+  <a href="https://docs.google.com/presentation/d/1a5Nu0xaqI02GTYYub3PESSVfszO_r_Mgpqkt9nufSZo/edit?slide=id.g304dfe70e09_0_40#slide=id.g304dfe70e09_0_40"><strong>Our Presentation / </a>
   <a href="https://youtu.be/uhIPjDqtWho">Demo Video</a>
-  ·
-  <a href="https://github.com/sunnypawat/network-II-slicing-security/">Project GitHub</a>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -45,16 +41,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-SDN Slices for Security Scenarios in ComNetsEmu demonstrates how network slicing can be leveraged in ComNetsEmu to dynamically manage network resources and enforce security policies using SDN principles.
+This project demonstrates how network slicing can be used within the ComNetsEmu environment to manage network resources dynamically through a Graphical User Interface (GUI). Leveraging Software-Defined Networking (SDN) principles allows network slices to be activated and deactivated based on specific security requirements.
 
-Each network slice represents a logically isolated segment that can be activated or deactivated depending on security requirements.
+Each network slice represents a logically isolated network segment tailored to particular applications, users, or services. This flexible approach makes it possible to simulate and test real-world security scenarios in which network policies must adapt to changing conditions, such as isolating compromised devices, prioritizing emergency traffic, or dynamically scaling resources for critical infrastructure.
 
-Example scenarios include:
-- Isolating compromised devices
-- Prioritizing emergency traffic
-- Scaling resources dynamically for critical infrastructure
-
-This project provides a flexible environment for research, education, and prototyping secure network architectures.
+By integrating with ComNetsEmu, this project provides an emulated platform to experiment with slice management, policy enforcement, and resource allocation in a safe and controlled environment—ideal for research, education, and prototyping secure network architectures.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
