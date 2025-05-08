@@ -1,4 +1,11 @@
-# SDN slices for Security Scenarios in ComNetsEmu
+<a name="readme-top"></a>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/sunnypawat/network-II-slicing-security/">
+    <img src="images/logos_and_icons/logo.png" alt="Logo" width="400" height="100">
+  </a>
 This is a part of the Networking course at the University of Trento
 
 This project demonstrates how network slicing can be used within the ComNetsEmu environment to manage network resources dynamically through a Graphical User Interface (GUI). Leveraging Software-Defined Networking (SDN) principles allows network slices to be activated and deactivated based on specific security requirements.
