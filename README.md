@@ -12,9 +12,7 @@
 
 <p align="center">
   <em>Dynamic and secure network slicing made simple</em>
-  <br />
-  powered by University of Trento students
-  <br />
+    <br />
   <a href="https://docs.google.com/presentation/d/1a5Nu0xaqI02GTYYub3PESSVfszO_r_Mgpqkt9nufSZo/edit?slide=id.g304dfe70e09_0_40#slide=id.g304dfe70e09_0_40"><strong>Explore the Presentation »</strong></a>
   <br />
   <br />
