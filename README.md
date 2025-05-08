@@ -1,76 +1,192 @@
+
 <a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/sunnypawat/network-II-slicing-security/">
-    <img src="images/logos_and_icons/icon.png" alt="Icon" width="200" height="200">
-    # SDN slices for Security Scenarios in ComNetsEmu
-  </a>
-This is a part of the Networking course at the University of Trento
 
-This project demonstrates how network slicing can be used within the ComNetsEmu environment to manage network resources dynamically through a Graphical User Interface (GUI). Leveraging Software-Defined Networking (SDN) principles allows network slices to be activated and deactivated based on specific security requirements.
+<h1 align="center" style="color:#E34C26">SDN Slices for Security Scenarios in ComNetsEmu</h1>
 
-Each network slice represents a logically isolated network segment tailored to particular applications, users, or services. This flexible approach makes it possible to simulate and test real-world security scenarios in which network policies must adapt to changing conditions, such as isolating compromised devices, prioritizing emergency traffic, or dynamically scaling resources for critical infrastructure.
+<hr>
 
-By integrating with ComNetsEmu, this project provides an emulated platform to experiment with slice management, policy enforcement, and resource allocation in a safe and controlled environment—ideal for research, education, and prototyping secure network architectures.
+<p align="center">
+    powered by University of Trento students
+    <br />
+    <a href="https://docs.google.com/presentation/d/1a5Nu0xaqI02GTYYub3PESSVfszO_r_Mgpqkt9nufSZo/edit?slide=id.g304dfe70e09_0_40#slide=id.g304dfe70e09_0_40"><strong>Explore the Presentation »</strong></a>
+    <br />
+    <br />
+    <a href="https://youtu.be/uhIPjDqtWho">View Video Demo</a>
+    ·
+    <a href="https://github.com/sunnypawat/network-II-slicing-security/">Project GitHub</a>
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#built-with">Built With</a></li>
+    <li><a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-run">How to Run</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#project-layout">Project Layout</a></li>
+    <li><a href="#about-us">About Us</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+SDN Slices for Security Scenarios in ComNetsEmu demonstrates how network slicing can be leveraged in ComNetsEmu to dynamically manage network resources and enforce security policies using SDN principles.
+
+Each network slice represents a logically isolated segment that can be activated or deactivated depending on security requirements.
+
+Example scenarios include:
+- Isolating compromised devices
+- Prioritizing emergency traffic
+- Scaling resources dynamically for critical infrastructure
+
+This project provides a flexible environment for research, education, and prototyping secure network architectures.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- GETTING STARTED -->
 ## Getting Started
-To get started, follow these steps!
+
+Welcome to our repository! To get started and have a working local copy of "SDN Slices for Security Scenarios" follow these steps.
+
 ### Prerequisites
-Our software is developed with ComNetsEmu.
-For more detailed information about ComNetsEmu, please visit here.
-```sh
+
+Our software is developed with [ComNetsEmu](https://www.granelli-lab.org/researches/relevant-projects/comnetsemu-labs).
+
+```bash
 $ cd ~
 $ git clone https://git.comnets.net/public-repo/comnetsemu.git
 $ cd ./comnetsemu
 $ vagrant up comnetsemu
-# Take a coffee and wait about 15 minutes
-
-# SSH into the VM when it's up and ready (The ComNetsEmu banner is printed on the screen)
 $ vagrant ssh comnetsemu
 ```
 
+You will also need an X server like [VcXsrv](https://sourceforge.net/projects/vcxsrv/) to export the GUI.
+
 ### Installation
 
-## Running
-1. Option 1: Enable ryu controller to isolate the network topology into slices and create the GUI: 
-```sh
+```bash
+git clone https://github.com/sunnypawat/network-II-slicing-security/
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- HOW TO RUN -->
+## How to Run
+
+First go to the project directory:
+
+```bash
+cd ./networking_security_slicing/
+```
+
+1. Enable Ryu controller:
+
+```bash
 $ ryu-manager ryu_slice.py --observe-links
 ```
-  
-  Option 2: Enable ryu controller to isolate the network topology into slices with .conf file (You must configure the scenario in the slice.conf file):
-```sh
+
+Alternative (with configuration file):
+
+```bash
 $ ryu-manager ryu_slice.py --config-file slice.conf
 ```
 
+2. Start Mininet topology:
 
-2. Network creation in Mininet (in a new terminal):
-```sh
+```bash
 $ sudo python3 topology.py
 ```
-3. See real-time switches log file
-```sh
+
+3. View Open vSwitch logs:
+
+```bash
 $ sudo tail -f /var/log/openvswitch/ovs-vswitchd.log
 ```
 
-Please execute the following command to clear everything before running a new example:
-```sh
+4. Cleanup:
+
+```bash
 $ sudo mn -c
 ```
 
-## Testing
-To test that everything is working properly, execute the following commands:
-1. Ping to check connectivity (in Mininet)
-```sh
-mininet>pingall
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+The project implements on-demand network slicing for security scenarios.
+
+- Activate/deactivate slices as needed.
+- Isolate network segments.
+- Enforce adaptive security policies.
+
+_For more details, refer to the [Video Demo](https://youtu.be/uhIPjDqtWho)_
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- PROJECT LAYOUT -->
+## Project Layout
+
 ```
-3. Bandwidth Check (in Mininet)
-```sh
-mininet>iperf h1 h4
+└── [networking_security_slicing]
+     ├── [Images]
+     ├── ryu_slice.py
+     ├── topology.py
+     ├── slice.conf
+     └── README.md
 ```
 
-## Project layout
-## About Us and Contact
-- Pawat Songkhopanit
-- Mariia Afonina
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- ABOUT US -->
+## About Us
+
+We are students at the University of Trento interested in network security and software-defined networking. This project was developed as part of the Networking course.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+## Contacts
+
+- Pawat Songkhopanit — pawat.songkhopanit@studenti.unitn.it
+- Mariia Afonina — mariia.afonina@studenti.unitn.it
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+* [ComNetsEmu](https://git.comnets.net/public-repo/comnetsemu)
+* [Mininet](http://mininet.org/)
+* [Python](https://www.python.org/)
+* [University of Trento](https://www.unitn.it/en)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<p align="center"><b>Thank you for visiting our page!</b></p>
+
+<!-- LINKS -->
+[Python-logo]: https://img.shields.io/badge/-Python-F9DC3E.svg?logo=python&style=flat
+[Python-url]: https://www.python.org/
+[VSC-logo]: https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC.svg?logo=visual-studio-code&style=flat
+[VSC-url]: https://code.visualstudio.com/
+[Mininet-logo]: images/logos_and_icons/mininet.png
+[Mininet-url]: http://mininet.org/
+[Comnetsemu-logo]: images/logos_and_icons/comnetsemu.png
+[Comnetsemu-url]: https://www.granelli-lab.org/researches/relevant-projects/comnetsemu-labs
+[GUI]: images/GUI.png
