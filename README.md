@@ -88,7 +88,7 @@ cd ./networking_security_slicing/
 1. Enable Ryu controller:
 
 ```bash
-$ ryu-manager ryu_slice.py --observe-links
+$ ryu-manager ryu_slice_gui.py --observe-links
 ```
 
 Alternative (with configuration file):
